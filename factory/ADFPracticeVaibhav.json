@@ -1,0 +1,9 @@
+{
+	"name": "ADFPracticeVaibhav",
+	"location": "centralus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "efc8de09-6e5f-4ae8-aade-fab578aac3f1",
+		"tenantId": "9cc8eee6-e8dc-4446-a749-75a0dac3cd3b"
+	}
+}

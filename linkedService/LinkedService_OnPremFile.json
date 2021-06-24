@@ -1,0 +1,17 @@
+{
+	"name": "LinkedService_OnPremFile",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "FileServer",
+		"typeProperties": {
+			"host": "C:\\Users\\vaibhav.s\\Desktop\\Personal Learning\\Azure\\Practice Data",
+			"userId": "vaibhav.s@hcl.com",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI2ZTg5ZTQ1Ni03MTcxLTQ0YzgtYjQxZi03MTY0ZmEwMDhlMWEiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "IRSelfHosted",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

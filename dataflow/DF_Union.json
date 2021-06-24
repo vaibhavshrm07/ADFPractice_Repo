@@ -1,0 +1,46 @@
+{
+	"name": "DF_Union",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "PayrollEmployee",
+						"type": "DatasetReference"
+					},
+					"name": "Payroll"
+				},
+				{
+					"dataset": {
+						"referenceName": "ITEmployee",
+						"type": "DatasetReference"
+					},
+					"name": "IT"
+				},
+				{
+					"dataset": {
+						"referenceName": "SalesEmployee",
+						"type": "DatasetReference"
+					},
+					"name": "Sales"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "UnionDepartmentData",
+						"type": "DatasetReference"
+					},
+					"name": "UnionData"
+				}
+			],
+			"transformations": [
+				{
+					"name": "UnionDepartments"
+				}
+			],
+			"script": "source(output(\n\t\tColumn_1 as string,\n\t\tColumn_2 as string,\n\t\tColumn_3 as string,\n\t\tColumn_4 as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> Payroll\nsource(output(\n\t\tColumn_1 as string,\n\t\tColumn_2 as string,\n\t\tColumn_3 as string,\n\t\tColumn_4 as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> IT\nsource(output(\n\t\tColumn_1 as string,\n\t\tColumn_2 as string,\n\t\tColumn_3 as string,\n\t\tColumn_4 as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> Sales\nPayroll, IT, Sales union(byName: true)~> UnionDepartments\nUnionDepartments sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tpartitionFileNames:['UnionDataFile'],\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true,\n\tmapColumn(\n\t\tColumn_1,\n\t\tColumn_2,\n\t\tColumn_3,\n\t\tColumn_4\n\t),\n\tpartitionBy('hash', 1)) ~> UnionData"
+		}
+	}
+}
