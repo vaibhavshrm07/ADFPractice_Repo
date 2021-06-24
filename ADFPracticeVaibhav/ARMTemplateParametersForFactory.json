@@ -1,0 +1,21 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "ADFPracticeVaibhav"
+		},
+		"LinkedService_BlobStorage_connectionString": {
+			"value": ""
+		},
+		"LinkedService_OnPremFile_password": {
+			"value": ""
+		},
+		"LinkedService_OnPremFile_properties_typeProperties_host": {
+			"value": "C:\\Users\\vaibhav.s\\Desktop\\Personal Learning\\Azure\\Practice Data"
+		},
+		"LinkedService_OnPremFile_properties_typeProperties_userId": {
+			"value": "vaibhav.s@hcl.com"
+		}
+	}
+}
