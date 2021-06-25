@@ -16,6 +16,12 @@
 		},
 		"LinkedService_OnPremFile_properties_typeProperties_userId": {
 			"value": "vaibhav.s@hcl.com"
+		},
+		"LinkedService_KV_Dev_properties_typeProperties_baseUrl": {
+			"value": "https://KV-ADF-Practice.vault.azure.net/"
+		},
+		"LinkedService_BlobStorage_KeyVault_properties_typeProperties_connectionString_secretName": {
+			"value": "Secret-AzurePractice"
 		}
 	}
 }

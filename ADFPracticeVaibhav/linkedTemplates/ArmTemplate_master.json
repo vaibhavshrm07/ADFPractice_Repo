@@ -23,6 +23,14 @@
 			"type": "string",
 			"defaultValue": "vaibhav.s@hcl.com"
 		},
+		"LinkedService_KV_Dev_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://KV-ADF-Practice.vault.azure.net/"
+		},
+		"LinkedService_BlobStorage_KeyVault_properties_typeProperties_connectionString_secretName": {
+			"type": "string",
+			"defaultValue": "Secret-AzurePractice"
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -56,11 +64,17 @@
 					"LinkedService_OnPremFile_password": {
 						"value": "[parameters('LinkedService_OnPremFile_password')]"
 					},
+					"LinkedService_KV_Dev_properties_typeProperties_baseUrl": {
+						"value": "[parameters('LinkedService_KV_Dev_properties_typeProperties_baseUrl')]"
+					},
 					"LinkedService_OnPremFile_properties_typeProperties_host": {
 						"value": "[parameters('LinkedService_OnPremFile_properties_typeProperties_host')]"
 					},
 					"LinkedService_OnPremFile_properties_typeProperties_userId": {
 						"value": "[parameters('LinkedService_OnPremFile_properties_typeProperties_userId')]"
+					},
+					"LinkedService_BlobStorage_KeyVault_properties_typeProperties_connectionString_secretName": {
+						"value": "[parameters('LinkedService_BlobStorage_KeyVault_properties_typeProperties_connectionString_secretName')]"
 					}
 				}
 			},

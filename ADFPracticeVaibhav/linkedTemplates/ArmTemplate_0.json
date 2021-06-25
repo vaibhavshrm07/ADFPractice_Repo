@@ -15,6 +15,10 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'password' of 'LinkedService_OnPremFile'"
 		},
+		"LinkedService_KV_Dev_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://KV-ADF-Practice.vault.azure.net/"
+		},
 		"LinkedService_OnPremFile_properties_typeProperties_host": {
 			"type": "string",
 			"defaultValue": "C:\\Users\\vaibhav.s\\Desktop\\Personal Learning\\Azure\\Practice Data"
@@ -22,6 +26,10 @@
 		"LinkedService_OnPremFile_properties_typeProperties_userId": {
 			"type": "string",
 			"defaultValue": "vaibhav.s@hcl.com"
+		},
+		"LinkedService_BlobStorage_KeyVault_properties_typeProperties_connectionString_secretName": {
+			"type": "string",
+			"defaultValue": "Secret-AzurePractice"
 		}
 	},
 	"variables": {
@@ -68,6 +76,19 @@
 			"properties": {
 				"type": "SelfHosted",
 				"typeProperties": {}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/LinkedService_KV_Dev')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureKeyVault",
+				"typeProperties": {
+					"baseUrl": "[parameters('LinkedService_KV_Dev_properties_typeProperties_baseUrl')]"
+				}
 			},
 			"dependsOn": []
 		},
@@ -444,6 +465,28 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/LinkedService_BlobStorage_KeyVault')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"connectionString": {
+						"type": "AzureKeyVaultSecret",
+						"store": {
+							"referenceName": "LinkedService_KV_Dev",
+							"type": "LinkedServiceReference"
+						},
+						"secretName": "[parameters('LinkedService_BlobStorage_KeyVault_properties_typeProperties_connectionString_secretName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LinkedService_KV_Dev')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/CopyPipeline')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
@@ -650,125 +693,6 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/ITEmployee')]",
 				"[concat(variables('factoryId'), '/datasets/SurrogateKeyFile')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SH_CopyOnPremFile')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "CopyFromOnPremToAzure",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "DelimitedTextSource",
-								"storeSettings": {
-									"type": "FileServerReadSettings",
-									"recursive": false,
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
-								}
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobStorageWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".csv"
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "OnPremCSV",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "CSVFromOnPrem",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"annotations": [],
-				"lastPublishTime": "2021-06-24T06:38:49Z"
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/OnPremCSV')]",
-				"[concat(variables('factoryId'), '/datasets/CSVFromOnPrem')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SurrogateKeyPipeline')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "SurrogateKey",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "1.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "SurrogateKey_DF",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"source1": {},
-									"sink1": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"annotations": [],
-				"lastPublishTime": "2021-06-24T09:04:16Z"
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/SurrogateKey_DF')]"
 			]
 		}
 	]
