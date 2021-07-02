@@ -1,0 +1,28 @@
+{
+	"name": "FIXEdLenDF",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_EmpFixedLen",
+						"type": "DatasetReference"
+					},
+					"name": "EmpFixedLen"
+				}
+			],
+			"sinks": [
+				{
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "DerivedColumn1"
+				}
+			],
+			"script": "source(output(\n\t\t{1000Vaibhav\tMH7558599308} as string\n\t),\n\tallowSchemaDrift: false,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> EmpFixedLen\nEmpFixedLen derive(EmpID = substring({1000Vaibhav\tMH7558599308},1,4),\n\t\tName = substring({1000Vaibhav\tMH7558599308},5,11),\n\t\tState = substring({1000Vaibhav\tMH7558599308},13,15),\n\t\tMobile = substring({1000Vaibhav\tMH7558599308},16,26)) ~> DerivedColumn1\nDerivedColumn1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
+		}
+	}
+}
