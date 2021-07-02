@@ -78,6 +78,12 @@
 										}
 									}
 								},
+								"logStorageSettings": {
+									"linkedServiceName": {
+										"referenceName": "LinkedService_BlobStorage",
+										"type": "LinkedServiceReference"
+									}
+								},
 								"enableLogging": true,
 								"storeSettings": {
 									"type": "AzureBlobStorageReadSettings",
