@@ -1,0 +1,29 @@
+{
+	"name": "ds_EmpFixedLen",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LinkedService_BlobStorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "FixedLengthFile.txt",
+				"folderPath": "Input",
+				"container": "adfpactice"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": false,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "1000Vaibhav\tMH7558599308",
+				"type": "String"
+			}
+		]
+	}
+}
